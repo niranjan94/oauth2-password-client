@@ -17,7 +17,7 @@ allprojects {
 Add the dependency
 ```gradle
 dependencies {
-  compile 'com.github.niranjan94:oauth2-password-client:0.1'
+  compile 'com.github.niranjan94:oauth2-password-client:1.0'
 }
 ```
 
