@@ -5,20 +5,20 @@
 ## Usage
 
 Add JitPack repository in your root build.gradle at the end of repositories:
-```
+```gradle
 allprojects {
-		repositories {
-			...
-			maven { url "https://jitpack.io" }
-		}
-	}
+  repositories {
+    ...
+    maven { url "https://jitpack.io" }
+  }
+}
 ```
 
 Add the dependency
-```
+```gradle
 dependencies {
-	        compile 'com.github.niranjan94:oauth2-password-client:0.1'
-	}
+  compile 'com.github.niranjan94:oauth2-password-client:0.1'
+}
 ```
 
 And start using it in your code
