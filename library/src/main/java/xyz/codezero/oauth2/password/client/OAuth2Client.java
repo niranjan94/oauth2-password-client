@@ -1,48 +1,44 @@
 package xyz.codezero.oauth2.password.client;
 
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class OAuth2Client {
 
-	private final String username;
-	private final String password;
-	private final String clientId;
-	private final String clientSecret;
-	private final String site;
+    private Token token;
+    private OAuth2Config config;
 	
-	public OAuth2Client(String username, String password, String clientId, String clientSecret, String site) {
-		this.username = username;
-		this.password = password;
-		this.clientId = clientId;
-		this.clientSecret = clientSecret;
-		this.site = site;
+	public OAuth2Client(OAuth2Config config) {
+        this.config = config;
 	}
 
-	public String getUsername() {
-		return username;
+    public OAuth2Config getConfig() {
+        return config;
+    }
+
+    public void setConfig(OAuth2Config config) {
+        this.config = config;
+    }
+
+    public Token getAccessToken() {
+        token = OAuthUtils.getAccessToken(config);
+        return token;
 	}
 
+    public Resource post(String path,  List<BasicNameValuePair> parametersBody){
+        return OAuthUtils.getProtectedResourcePost(this,token,path,parametersBody);
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public Resource post(String path){
+        List<BasicNameValuePair> parametersBody = new ArrayList<>();
+        return OAuthUtils.getProtectedResourcePost(this,token,path,parametersBody);
+    }
 
-
-	public String getClientId() {
-		return clientId;
-	}
-
-
-	public String getClientSecret() {
-		return clientSecret;
-	}
+    public Resource get(String path){
+        return OAuthUtils.getProtectedResource(this, token, path);
+    }
 
 
-	public String getSite() {
-		return site;
-	}
-	
-	public Token getAccessToken() {
-		OAuth2Config oauthConfig = new OAuth2Config.OAuth2ConfigBuilder(username, password, clientId, clientSecret, site)
-			.grantType("password").build();
-		return OAuthUtils.getAccessToken(oauthConfig);
-	}
 }

@@ -8,8 +8,7 @@ public class Token {
 		private final String tokenType;
 		private final String refreshToken;
 		private final String accessToken;
-		
-		
+
 		public Token(Long expiresIn, String tokenType, String refreshToken, String accessToken) {
 			this.expiresIn = expiresIn;
 			this.tokenType = tokenType;
@@ -17,7 +16,6 @@ public class Token {
 			this.accessToken = accessToken;
 			this.expiresAt = (expiresIn * 1000) + System.currentTimeMillis();
 		}
-
 
 		public Long getExpiresIn() {
 			return expiresIn;
@@ -45,13 +43,9 @@ public class Token {
 		 return (System.currentTimeMillis() >= this.getExpiresAt());
 		}
 		
-		public String getResource(OAuth2Client client, Token token, String path) {
-			return OAuthUtils.getProtectedResource(client, token, path);
-		}
-		
 		public Token refresh(OAuth2Client client) {
-			OAuth2Config oauthConfig = new OAuth2Config.OAuth2ConfigBuilder(client.getUsername(), client.getPassword(), client.getClientId(), client.getClientSecret(), client.getSite())
-				.grantType("refresh_token").build();
+			OAuth2Config oauthConfig = new OAuth2Config.OAuth2ConfigBuilder(client.getConfig().getUsername(), client.getConfig().getPassword(), client.getConfig().getClientId(), client.getConfig().getClientSecret(), client.getConfig().getSite())
+				.grantType("refresh_token").tokenEndpoint(client.getConfig().getTokenEndpoint()).build();
 			return OAuthUtils.refreshAccessToken(this, oauthConfig);
 		}
 }

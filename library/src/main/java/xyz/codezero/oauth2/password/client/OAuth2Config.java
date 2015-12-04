@@ -9,6 +9,7 @@ public class OAuth2Config {
 	private final String username;
 	private final String password;
 	private final String site;
+    private final String tokenEndpoint;
 	
 	private OAuth2Config(OAuth2ConfigBuilder builder) {
 		this.username = builder.username;
@@ -18,7 +19,9 @@ public class OAuth2Config {
 		this.site = builder.site;
 		this.scope = builder.scope;
 		this.grantType = builder.grantType;
+        this.tokenEndpoint = builder.tokenEndpoint;
 	}
+
 	public String getScope() {
 		return scope;
 	}
@@ -40,8 +43,13 @@ public class OAuth2Config {
 	public String getPassword() {
 		return password;
 	}
-	public String getTokenEndPointUrl() {
-		return site + "/oauth/token";
+
+    public String getTokenEndpoint() {
+        return tokenEndpoint;
+    }
+
+    public String getTokenEndPointUrl() {
+		return site + tokenEndpoint;
 	}
 
 	public static class OAuth2ConfigBuilder {
@@ -52,6 +60,7 @@ public class OAuth2Config {
 		private String username;
 		private String password;
 		private String site;
+        private String tokenEndpoint;
 
 		public OAuth2ConfigBuilder(String username, String password, String clientId, String clientSecret, String site) {
 			this.username = username;
@@ -59,7 +68,14 @@ public class OAuth2Config {
 			this.clientId = clientId;
 			this.clientSecret = clientSecret;
 			this.site = site;
+            tokenEndpoint = "/oauth/token";
+            grantType = "password";
 		}
+
+        public OAuth2ConfigBuilder tokenEndpoint(String tokenEndpoint) {
+            this.tokenEndpoint = tokenEndpoint;
+            return this;
+        }
 
 		public OAuth2ConfigBuilder grantType(String grantType) {
 			this.grantType = grantType;

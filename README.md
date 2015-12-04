@@ -24,10 +24,13 @@ dependencies {
 And start using it in your code
 
 ```java
-OAuth2Client client = new OAuth2Client("username", "password", "app-id", "app-secret", "site");
-Token token = client.getAccessToken();
 
-token.getResource(client, token, "/path/to/resource?name=value");
+OAuth2Config oauthConfig = new OAuth2Config.OAuth2ConfigBuilder("username", "password", "client-id", "client-secret", "site-url").build();
+OAuth2Client client = new OAuth2Client(oauthConfig);
+Token token = client.getAccessToken(); // Authorizes Client
+
+client.get("/path/to/resource?name=value");
+client.post("/path/to/resource?name=value");
 ```
 With this grant type, the client application doesn't need to store the username/password of the user. Those credentials are asked once and exchanged for an access token. This token can then be used to access protected resources. 
 
