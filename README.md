@@ -4,6 +4,25 @@
 
 ## Usage
 
+Add JitPack repository in your root build.gradle at the end of repositories:
+```
+allprojects {
+		repositories {
+			...
+			maven { url "https://jitpack.io" }
+		}
+	}
+```
+
+Add the dependency
+```
+dependencies {
+	        compile 'com.github.niranjan94:oauth2-password-client:0.1'
+	}
+```
+
+And start using it in your code
+
 ```java
 OAuth2Client client = new OAuth2Client("username", "password", "app-id", "app-secret", "site");
 Token token = client.getAccessToken();
